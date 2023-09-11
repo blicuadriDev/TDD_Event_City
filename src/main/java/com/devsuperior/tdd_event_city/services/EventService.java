@@ -18,10 +18,12 @@ public class EventService {
 	@Autowired
 	private EventRepository repository;
 
+	
 	@Transactional
 	public EventDTO update(Long id, EventDTO dto) {
 		try {
 			Event entity = repository.getReferenceById(id);
+			
 			entity.setDate(dto.getDate());
 			entity.setName(dto.getName());
 			entity.setUrl(dto.getUrl());
