@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.tdd_event_city.dto.EventDTO;
 import com.devsuperior.tdd_event_city.entities.City;
 import com.devsuperior.tdd_event_city.entities.Event;
+import com.devsuperior.tdd_event_city.repositories.CityRepository;
 import com.devsuperior.tdd_event_city.repositories.EventRepository;
 import com.devsuperior.tdd_event_city.services.exceptions.ResourceNotFoundException;
 
@@ -17,6 +18,9 @@ public class EventService {
 
 	@Autowired
 	private EventRepository repository;
+	
+	@Autowired
+	private CityRepository cityRepository;
 
 	
 	@Transactional
@@ -28,7 +32,9 @@ public class EventService {
 			entity.setName(dto.getName());
 			entity.setUrl(dto.getUrl());
 			entity.setId(dto.getId());
-			entity.setCity(new City(dto.getCityId(), null));
+			entity.setCity(cityRepository.getReferenceById(dto.getCityId()));
+			//It also could be
+			//entity.setCity(new City(dto.getCityId(), null));			
 
 			entity = repository.save(entity);
 
